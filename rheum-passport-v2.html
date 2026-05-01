@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#1a3a6b">
+<title>Rheumatology Passport · BCM / TCH</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #1a3a6b;
+  --navy-dark: #0f2347;
+  --navy-light: #2a5298;
+  --horse: #185FA5;
+  --horse-light: #E6F1FB;
+  --horse-dark: #0C447C;
+  --zebra: #BA7517;
+  --zebra-light: #FEF3E0;
+  --zebra-dark: #633806;
+  --green-deep: #3B6D11;
+  --green: #639922;
+  --green-light: #97C459;
+  --yellow: #EF9F27;
+  --orange: #BA7517;
+  --red: #C0392B;
+  --bg: #F0F4F9;
+  --card: #FFFFFF;
+  --border: rgba(0,0,0,0.09);
+  --text: #1a1a2e;
+  --text-secondary: #5a6377;
+  --text-hint: #9aa0b0;
+  --radius: 14px;
+  --radius-sm: 9px;
+  --shadow: 0 1px 4px rgba(0,0,0,0.07), 0 0 1px rgba(0,0,0,0.05);
+  --font: 'DM Sans', sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0d1420;
+    --card: #1a2235;
+    --border: rgba(255,255,255,0.08);
+    --text: #e8eaf2;
+    --text-secondary: #8a91a8;
+    --text-hint: #4a5068;
+    --horse-light: #0c2444;
+    --zebra-light: #2a1c08;
+    --shadow: 0 1px 4px rgba(0,0,0,0.3);
+  }
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;}
+
+/* ── ONBOARDING ── */
+#onboard-overlay{position:fixed;inset:0;z-index:100;background:var(--navy-dark);display:flex;align-items:center;justify-content:center;padding:20px;}
+.onboard-card{background:var(--card);border-radius:22px;padding:30px 24px;width:100%;max-width:420px;box-shadow:0 24px 64px rgba(0,0,0,0.5);}
+.onboard-brand{display:flex;align-items:center;gap:12px;margin-bottom:22px;}
+.onboard-icon{width:44px;height:44px;background:var(--navy);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+.onboard-brand-text .t1{font-size:14px;font-weight:700;color:var(--navy);}
+.onboard-brand-text .t2{font-size:11px;color:var(--text-secondary);margin-top:1px;}
+.onboard-heading{font-size:24px;font-weight:700;color:var(--navy);margin-bottom:6px;}
+.onboard-sub{font-size:13px;color:var(--text-secondary);line-height:1.6;margin-bottom:24px;}
+.field-label{font-size:11px;font-weight:600;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;display:block;}
+.field-input{width:100%;height:48px;border:1.5px solid var(--border);border-radius:var(--radius-sm);background:var(--bg);color:var(--text);font-size:15px;font-family:var(--font);padding:0 14px;margin-bottom:14px;-webkit-appearance:none;appearance:none;outline:none;transition:border-color 0.15s;}
+.field-input:focus{border-color:var(--navy);}
+.field-row{display:flex;gap:10px;}
+.field-row .field-wrap{flex:1;}
+.begin-btn{width:100%;height:52px;background:var(--navy);color:#fff;border:none;border-radius:var(--radius-sm);font-size:16px;font-weight:700;font-family:var(--font);cursor:pointer;margin-top:8px;letter-spacing:0.01em;transition:background 0.15s,transform 0.1s;-webkit-appearance:none;}
+.begin-btn:active{transform:scale(0.98);background:var(--navy-dark);}
+.device-note{font-size:11px;color:var(--text-hint);text-align:center;margin-top:14px;line-height:1.6;}
+
+/* ── APP SHELL ── */
+#app{display:none;flex-direction:column;min-height:100vh;}
+.app-header{background:var(--navy);padding:14px 16px 0;position:sticky;top:0;z-index:50;}
+.header-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px;}
+.header-titles .h1{color:#fff;font-size:18px;font-weight:700;}
+.header-titles .h2{color:rgba(255,255,255,0.55);font-size:11px;margin-top:2px;}
+.header-right{display:flex;align-items:center;gap:10px;}
+.header-learner{font-size:11px;color:rgba(255,255,255,0.65);text-align:right;line-height:1.4;}
+.gear-btn{background:rgba(255,255,255,0.12);border:none;border-radius:8px;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;flex-shrink:0;transition:background 0.15s;}
+.gear-btn:active{background:rgba(255,255,255,0.22);}
+.header-stats{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
+.zebra-counter{display:flex;align-items:center;gap:5px;background:rgba(255,255,255,0.1);border-radius:20px;padding:4px 10px;}
+.zebra-counter-text{font-size:12px;font-weight:600;color:#fff;}
+.fire-counter{display:flex;align-items:center;gap:4px;background:rgba(255,255,255,0.1);border-radius:20px;padding:4px 10px;}
+.fire-counter-text{font-size:12px;font-weight:600;color:#fff;}
+.heat-dots{display:flex;gap:4px;margin-bottom:0;}
+.heat-dot{flex:1;height:4px;border-radius:2px;transition:background 0.5s;}
+.tab-bar{display:flex;background:var(--navy);overflow-x:auto;-ms-overflow-style:none;scrollbar-width:none;margin-top:8px;}
+.tab-bar::-webkit-scrollbar{display:none;}
+.tab{flex:1;min-width:72px;padding:10px 4px 11px;text-align:center;cursor:pointer;border-bottom:3px solid transparent;transition:all 0.15s;user-select:none;}
+.tab-name{font-size:11px;font-weight:600;color:rgba(255,255,255,0.55);}
+.tab-count{font-size:10px;margin-top:2px;color:rgba(255,255,255,0.35);}
+.tab.active .tab-name{color:#fff;}
+.tab.active{border-bottom:3px solid rgba(255,255,255,0.9);}
+.tab.active .tab-count{color:rgba(255,255,255,0.75);}
+
+/* ── CONTENT ── */
+.content{flex:1;padding:12px;padding-bottom:150px;}
+.tab-panel{display:none;}
+.tab-panel.active{display:block;}
+
+/* ── ACCORDION ── */
+.accordion{background:var(--card);border-radius:var(--radius);border:0.5px solid var(--border);margin-bottom:10px;overflow:hidden;box-shadow:var(--shadow);}
+.accordion-header{display:flex;align-items:center;justify-content:space-between;padding:16px 16px;cursor:pointer;user-select:none;min-height:56px;}
+.accordion-title{font-size:14px;font-weight:700;color:var(--text);}
+.accordion-right{display:flex;align-items:center;gap:8px;flex-shrink:0;}
+.accordion-count{font-size:12px;font-weight:500;color:var(--text-secondary);}
+.accordion-chevron{font-size:13px;color:var(--text-hint);transition:transform 0.25s;width:20px;text-align:center;}
+.accordion-chevron.open{transform:rotate(180deg);}
+.accordion-body{display:none;padding:0 10px 10px;}
+.accordion-body.open{display:block;}
+
+/* ── ITEM CARDS ── */
+.item-card{border-radius:var(--radius-sm);border:0.5px solid var(--border);padding:14px 14px;margin-top:8px;background:var(--card);cursor:pointer;transition:opacity 0.3s,transform 0.15s;position:relative;overflow:hidden;user-select:none;min-height:56px;}
+.item-card.horse{border-left:3px solid var(--horse);border-radius:0 var(--radius-sm) var(--radius-sm) 0;}
+.item-card.zebra{border-left:3px solid var(--zebra);border-radius:0 var(--radius-sm) var(--radius-sm) 0;}
+.item-card.done{opacity:0.52;}
+.item-card:active{transform:scale(0.99);}
+.item-top{display:flex;align-items:flex-start;gap:12px;}
+.check-box{width:26px;height:26px;flex-shrink:0;margin-top:1px;border-radius:6px;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;transition:background 0.15s,border-color 0.15s;}
+.horse .check-box{border-color:var(--horse);}
+.zebra .check-box{border-color:var(--zebra);}
+.item-card.done.horse .check-box{background:var(--horse);border-color:var(--horse);}
+.item-card.done.zebra .check-box{background:var(--zebra);border-color:var(--zebra);}
+.check-svg{width:14px;height:14px;stroke:#fff;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;display:none;}
+.item-card.done .check-svg{display:block;}
+.item-body{flex:1;min-width:0;}
+.badge{display:inline-flex;align-items:center;gap:3px;font-size:10px;font-weight:600;padding:2px 7px;border-radius:10px;margin-bottom:5px;}
+.badge.horse-b{background:var(--horse-light);color:var(--horse-dark);}
+.badge.zebra-b{background:var(--zebra-light);color:var(--zebra-dark);}
+.item-title{font-size:14px;font-weight:500;color:var(--text);line-height:1.35;}
+.item-card.done .item-title{text-decoration:line-through;color:var(--text-secondary);}
+.item-done-meta{font-size:11px;color:var(--text-hint);margin-top:5px;font-weight:400;}
+.burst-container{position:absolute;top:50%;left:50%;pointer-events:none;z-index:10;}
+@keyframes burst-out{0%{opacity:1;transform:translate(-50%,-50%) scale(1);}100%{opacity:0;transform:translate(var(--tx),var(--ty)) scale(0.1);}}
+.particle{position:absolute;border-radius:50%;animation:burst-out 0.55s ease-out forwards;}
+.particle.z{animation-duration:0.75s;}
+
+/* ── FOOTER ── */
+.footer{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--border);padding:12px 16px 24px;z-index:40;box-shadow:0 -2px 12px rgba(0,0,0,0.07);}
+.footer-main{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.footer-left .overall-label{font-size:11px;font-weight:500;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.04em;}
+.footer-left .overall-pct{font-size:26px;font-weight:700;color:var(--text);line-height:1.1;margin-top:1px;}
+.submit-btn{background:var(--navy);color:#fff;border:none;border-radius:var(--radius-sm);padding:0 22px;height:50px;font-size:14px;font-weight:700;font-family:var(--font);cursor:pointer;letter-spacing:0.01em;transition:background 0.15s,transform 0.1s;-webkit-appearance:none;white-space:nowrap;}
+.submit-btn:active{transform:scale(0.97);background:var(--navy-dark);}
+.overall-bar-bg{height:8px;border-radius:4px;background:var(--bg);overflow:hidden;margin-bottom:4px;}
+.overall-bar-fill{height:100%;border-radius:4px;transition:width 0.5s ease,background 0.5s ease;}
+.footer-hint{font-size:10px;color:var(--text-hint);text-align:center;}
+
+/* ── BOTTOM SHEET ── */
+.sheet-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:150;display:none;align-items:flex-end;justify-content:center;}
+.sheet-overlay.open{display:flex;}
+.sheet-card{background:var(--card);border-radius:22px 22px 0 0;padding:20px 20px 36px;width:100%;max-width:520px;box-shadow:0 -4px 24px rgba(0,0,0,0.15);}
+.sheet-handle{width:36px;height:4px;background:var(--border);border-radius:2px;margin:0 auto 18px;}
+.sheet-context{font-size:11px;font-weight:600;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:4px;}
+.sheet-item-name{font-size:16px;font-weight:700;color:var(--text);margin-bottom:18px;line-height:1.3;}
+.sheet-label{font-size:11px;font-weight:600;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;}
+.sheet-input{width:100%;height:48px;border:1.5px solid var(--border);border-radius:var(--radius-sm);background:var(--bg);color:var(--text);font-size:16px;font-family:var(--font);padding:0 14px;margin-bottom:18px;-webkit-appearance:none;appearance:none;outline:none;transition:border-color 0.15s;}
+.sheet-input:focus{border-color:var(--navy);}
+.sheet-btns{display:flex;gap:10px;}
+.sheet-skip{flex:1;height:52px;border-radius:var(--radius-sm);border:1.5px solid var(--border);background:transparent;color:var(--text-secondary);font-size:15px;font-weight:600;font-family:var(--font);cursor:pointer;}
+.sheet-confirm{flex:2;height:52px;border-radius:var(--radius-sm);border:none;background:var(--navy);color:#fff;font-size:15px;font-weight:700;font-family:var(--font);cursor:pointer;}
+.sheet-skip:active{opacity:0.7;}
+.sheet-confirm:active{opacity:0.85;}
+
+/* ── CONFIRM DIALOG ── */
+.confirm-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:200;display:none;align-items:flex-end;justify-content:center;padding:20px;}
+.confirm-overlay.open{display:flex;}
+.confirm-card{background:var(--card);border-radius:22px 22px 0 0;padding:24px 20px 36px;width:100%;max-width:520px;}
+.confirm-title{font-size:18px;font-weight:700;color:var(--text);margin-bottom:8px;}
+.confirm-sub{font-size:13px;color:var(--text-secondary);line-height:1.6;margin-bottom:22px;}
+.confirm-btns{display:flex;gap:10px;}
+.confirm-cancel{flex:1;height:52px;border-radius:var(--radius-sm);border:1.5px solid var(--border);background:transparent;color:var(--text-secondary);font-size:15px;font-weight:600;font-family:var(--font);cursor:pointer;}
+.confirm-go{flex:2;height:52px;border-radius:var(--radius-sm);border:none;background:var(--navy);color:#fff;font-size:15px;font-weight:700;font-family:var(--font);cursor:pointer;}
+
+/* ── TOAST BANNERS ── */
+.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%) translateY(-120px);z-index:300;background:var(--card);border-radius:16px;padding:16px 20px;box-shadow:0 8px 32px rgba(0,0,0,0.2);min-width:280px;max-width:340px;text-align:center;transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1),opacity 0.3s;opacity:0;border:1px solid var(--border);}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1;}
+.toast-icon{font-size:28px;margin-bottom:6px;}
+.toast-title{font-size:15px;font-weight:700;color:var(--text);margin-bottom:3px;}
+.toast-sub{font-size:12px;color:var(--text-secondary);line-height:1.5;}
+
+/* ── ACHIEVEMENT SCREEN ── */
+.achievement-overlay{position:fixed;inset:0;background:rgba(10,20,50,0.92);z-index:250;display:none;align-items:center;justify-content:center;padding:20px;}
+.achievement-overlay.open{display:flex;}
+.achievement-card{background:var(--card);border-radius:24px;padding:32px 24px;width:100%;max-width:380px;text-align:center;box-shadow:0 24px 64px rgba(0,0,0,0.5);}
+.achievement-emoji{font-size:52px;margin-bottom:12px;}
+.achievement-title{font-size:24px;font-weight:700;color:var(--navy);margin-bottom:6px;}
+.achievement-sub{font-size:13px;color:var(--text-secondary);line-height:1.6;margin-bottom:24px;}
+.achievement-stats{display:flex;gap:12px;margin-bottom:20px;}
+.achievement-stat{flex:1;background:var(--bg);border-radius:12px;padding:14px 10px;}
+.achievement-stat-num{font-size:28px;font-weight:700;color:var(--navy);}
+.achievement-stat-lbl{font-size:11px;color:var(--text-secondary);margin-top:3px;}
+.achievement-badges{display:flex;flex-direction:column;gap:8px;margin-bottom:22px;}
+.achievement-badge{background:var(--bg);border-radius:10px;padding:10px 14px;display:flex;align-items:center;gap:10px;}
+.achievement-badge-icon{font-size:22px;}
+.achievement-badge-text{text-align:left;}
+.achievement-badge-name{font-size:13px;font-weight:700;color:var(--text);}
+.achievement-badge-sub{font-size:11px;color:var(--text-secondary);}
+.achievement-close{width:100%;height:50px;background:var(--navy);color:#fff;border:none;border-radius:var(--radius-sm);font-size:15px;font-weight:700;font-family:var(--font);cursor:pointer;}
+
+/* ── EDIT PROFILE ── */
+.edit-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:200;display:none;align-items:flex-end;justify-content:center;}
+.edit-overlay.open{display:flex;}
+.edit-card{background:var(--card);border-radius:22px 22px 0 0;padding:24px 20px 36px;width:100%;max-width:520px;}
+.edit-title{font-size:18px;font-weight:700;color:var(--text);margin-bottom:4px;}
+.edit-sub{font-size:12px;color:var(--text-secondary);margin-bottom:20px;}
+.edit-save{width:100%;height:50px;background:var(--navy);color:#fff;border:none;border-radius:var(--radius-sm);font-size:15px;font-weight:700;font-family:var(--font);cursor:pointer;margin-top:6px;}
+
+/* ── CONFETTI ── */
+.confetti-piece{position:fixed;width:8px;height:8px;border-radius:2px;pointer-events:none;z-index:400;}
+@keyframes confetti-fall{0%{transform:translateY(-20px) rotate(0deg);opacity:1;}100%{transform:translateY(100vh) rotate(720deg);opacity:0;}}
+</style>
+</head>
+<body>
+
+<!-- ONBOARDING -->
+<div id="onboard-overlay">
+  <div class="onboard-card">
+    <div class="onboard-brand">
+      <div class="onboard-icon">🩺</div>
+      <div class="onboard-brand-text">
+        <div class="t1">Rheumatology Passport</div>
+        <div class="t2">Baylor College of Medicine · Texas Children's Hospital</div>
+      </div>
+    </div>
+    <div class="onboard-heading">Welcome</div>
+    <div class="onboard-sub">Track your rotation encounters as you go. Your progress saves to this device — submit before your rotation ends.</div>
+    <label class="field-label" for="ob-name">Full name</label>
+    <input class="field-input" id="ob-name" type="text" placeholder="Your name" autocomplete="name">
+    <label class="field-label" for="ob-email">Email</label>
+    <input class="field-input" id="ob-email" type="email" placeholder="your@email.com" autocomplete="email">
+    <div class="field-row">
+      <div class="field-wrap">
+        <label class="field-label" for="ob-level">Training level</label>
+        <select class="field-input" id="ob-level">
+          <option value="Medical student">Medical student</option>
+          <option value="Resident">Resident</option>
+          <option value="Fellow">Fellow</option>
+        </select>
+      </div>
+      <div class="field-wrap">
+        <label class="field-label" for="ob-weeks">Rotation length</label>
+        <select class="field-input" id="ob-weeks">
+          <option value="1">1 week</option>
+          <option value="2">2 weeks</option>
+          <option value="3">3 weeks</option>
+          <option value="4" selected>4 weeks</option>
+        </select>
+      </div>
+    </div>
+    <button class="begin-btn" onclick="beginPassport()">Begin Passport →</button>
+    <div class="device-note">Progress saves to this device only.<br>Avoid clearing your browser cache before submitting.</div>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div id="app">
+  <div class="app-header">
+    <div class="header-top">
+      <div class="header-titles">
+        <div class="h1">Rheumatology Passport</div>
+        <div class="h2">BCM · Texas Children's Hospital</div>
+      </div>
+      <div class="header-right">
+        <div class="header-learner" id="header-learner"></div>
+        <button class="gear-btn" onclick="openEdit()" aria-label="Edit profile">⚙️</button>
+      </div>
+    </div>
+    <div class="header-stats">
+      <div class="zebra-counter">
+        <span>🦓</span>
+        <span class="zebra-counter-text" id="zebra-count-display">0 / 30</span>
+      </div>
+      <div class="fire-counter" id="fire-counter" style="display:none;">
+        <span id="fire-display">🔥</span>
+        <span class="fire-counter-text" id="fire-days-display">1 day</span>
+      </div>
+    </div>
+    <div class="heat-dots">
+      <div class="heat-dot" id="hd0" style="background:#C0392B;"></div>
+      <div class="heat-dot" id="hd1" style="background:#C0392B;"></div>
+      <div class="heat-dot" id="hd2" style="background:#C0392B;"></div>
+      <div class="heat-dot" id="hd3" style="background:#C0392B;"></div>
+    </div>
+    <div class="tab-bar">
+      <div class="tab active" onclick="switchTab(0)"><div class="tab-name">Joint Dz</div><div class="tab-count" id="tc0">0/21</div></div>
+      <div class="tab" onclick="switchTab(1)"><div class="tab-name">CTD</div><div class="tab-count" id="tc1">0/15</div></div>
+      <div class="tab" onclick="switchTab(2)"><div class="tab-name">Vasculitis</div><div class="tab-count" id="tc2">0/16</div></div>
+      <div class="tab" onclick="switchTab(3)"><div class="tab-name">Autoinflam</div><div class="tab-count" id="tc3">0/17</div></div>
+    </div>
+  </div>
+
+  <div class="content">
+    <!-- TAB 0 -->
+    <div class="tab-panel active" id="tab0">
+      <div class="accordion" id="acc-jia">
+        <div class="accordion-header" onclick="toggleAccordion('jia')">
+          <div class="accordion-title">Inflammatory joint disease</div>
+          <div class="accordion-right"><span class="accordion-count" id="count-jia">0 / 12</span><div class="accordion-chevron" id="chev-jia">▾</div></div>
+        </div>
+        <div class="accordion-body" id="body-jia"></div>
+      </div>
+      <div class="accordion" id="acc-pharm">
+        <div class="accordion-header" onclick="toggleAccordion('pharm')">
+          <div class="accordion-title">Pharmacology</div>
+          <div class="accordion-right"><span class="accordion-count" id="count-pharm">0 / 9</span><div class="accordion-chevron" id="chev-pharm">▾</div></div>
+        </div>
+        <div class="accordion-body" id="body-pharm"></div>
+      </div>
+    </div>
+    <!-- TAB 1 -->
+    <div class="tab-panel" id="tab1">
+      <div class="accordion" id="acc-ctd">
+        <div class="accordion-header" onclick="toggleAccordion('ctd')">
+          <div class="accordion-title">Inflammatory connective tissue disease</div>
+          <div class="accordion-right"><span class="accordion-count" id="count-ctd">0 / 15</span><div class="accordion-chevron" id="chev-ctd">▾</div></div>
+        </div>
+        <div class="accordion-body" id="body-ctd"></div>
+      </div>
+    </div>
+    <!-- TAB 2 -->
+    <div class="tab-panel" id="tab2">
+      <div class="accordion" id="acc-vasc">
+        <div class="accordion-header" onclick="toggleAccordion('vasc')">
+          <div class="accordion-title">Vasculitis</div>
+          <div class="accordion-right"><span class="accordion-count" id="count-vasc">0 / 13</span><div class="accordion-chevron" id="chev-vasc">▾</div></div>
+        </div>
+        <div class="accordion-body" id="body-vasc"></div>
+      </div>
+      <div class="accordion" id="acc-infx">
+        <div class="accordion-header" onclick="toggleAccordion('infx')">
+          <div class="accordion-title">Infection-related rheumatic disorders</div>
+          <div class="accordion-right"><span class="accordion-count" id="count-infx">0 / 4</span><div class="accordion-chevron" id="chev-infx">▾</div></div>
+        </div>
+        <div class="accordion-body" id="body-infx"></div>
+      </div>
+    </div>
+    <!-- TAB 3 -->
+    <div class="tab-panel" id="tab3">
+      <div class="accordion" id="acc-auto">
+        <div class="accordion-header" onclick="toggleAccordion('auto')">
+          <div class="accordion-title">Autoinflammatory disease &amp; immunodeficiencies</div>
+          <div class="accordion-right"><span class="accordion-count" id="count-auto">0 / 8</span><div class="accordion-chevron" id="chev-auto">▾</div></div>
+        </div>
+        <div class="accordion-body" id="body-auto"></div>
+      </div>
+      <div class="accordion" id="acc-nonrheum">
+        <div class="accordion-header" onclick="toggleAccordion('nonrheum')">
+          <div class="accordion-title">Rheumatic manifestations of non-rheum disease</div>
+          <div class="accordion-right"><span class="accordion-count" id="count-nonrheum">0 / 11</span><div class="accordion-chevron" id="chev-nonrheum">▾</div></div>
+        </div>
+        <div class="accordion-body" id="body-nonrheum"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-main">
+      <div class="footer-left">
+        <div class="overall-label">Overall completion</div>
+        <div class="overall-pct" id="overall-pct">0%</div>
+      </div>
+      <button class="submit-btn" onclick="handleSubmit()">Submit passport</button>
+    </div>
+    <div class="overall-bar-bg"><div class="overall-bar-fill" id="overall-bar" style="width:0%;background:#C0392B;"></div></div>
+    <div class="footer-hint">Submit at end of rotation · Progress saved to this device</div>
+  </div>
+</div>
+
+<!-- BOTTOM SHEET: initials entry -->
+<div class="sheet-overlay" id="sheet-overlay" onclick="closeSheet(event)">
+  <div class="sheet-card">
+    <div class="sheet-handle"></div>
+    <div class="sheet-context">Mark as complete</div>
+    <div class="sheet-item-name" id="sheet-item-name">Item name</div>
+    <label class="sheet-label" for="sheet-initials">Attending initials <span style="font-weight:400;text-transform:none;letter-spacing:0;">(optional)</span></label>
+    <input class="sheet-input" id="sheet-initials" type="text" maxlength="6" placeholder="e.g. RMK" autocomplete="off" autocorrect="off" spellcheck="false">
+    <div class="sheet-btns">
+      <button class="sheet-skip" onclick="confirmItem(true)">Skip</button>
+      <button class="sheet-confirm" onclick="confirmItem(false)">Confirm ✓</button>
+    </div>
+  </div>
+</div>
+
+<!-- CONFIRM SUBMIT DIALOG -->
+<div class="confirm-overlay" id="confirm-overlay" onclick="closeConfirm(event)">
+  <div class="confirm-card">
+    <div class="confirm-title" id="confirm-title">Submit passport?</div>
+    <div class="confirm-sub" id="confirm-sub">This will send your completion record to your rotation coordinator. You can still make changes after submitting.</div>
+    <div class="confirm-btns">
+      <button class="confirm-cancel" onclick="closeConfirm()">Cancel</button>
+      <button class="confirm-go" onclick="doSubmit()">Submit</button>
+    </div>
+  </div>
+</div>
+
+<!-- ACHIEVEMENT SCREEN -->
+<div class="achievement-overlay" id="achievement-overlay">
+  <div class="achievement-card">
+    <div class="achievement-emoji">🎉</div>
+    <div class="achievement-title">Passport submitted!</div>
+    <div class="achievement-sub">Great work on your rheumatology rotation.</div>
+    <div class="achievement-stats">
+      <div class="achievement-stat">
+        <div class="achievement-stat-num" id="ach-pct">0%</div>
+        <div class="achievement-stat-lbl">Overall completion</div>
+      </div>
+      <div class="achievement-stat">
+        <div class="achievement-stat-num" id="ach-zebras">0</div>
+        <div class="achievement-stat-lbl">🦓 Zebras spotted</div>
+      </div>
+    </div>
+    <div class="achievement-badges" id="ach-badges"></div>
+    <button class="achievement-close" onclick="closeAchievement()">Done</button>
+  </div>
+</div>
+
+<!-- EDIT PROFILE -->
+<div class="edit-overlay" id="edit-overlay" onclick="closeEdit(event)">
+  <div class="edit-card">
+    <div class="edit-title">Edit profile</div>
+    <div class="edit-sub">Your passport progress will not be affected.</div>
+    <label class="field-label" for="edit-name">Full name</label>
+    <input class="field-input" id="edit-name" type="text" autocomplete="name">
+    <label class="field-label" for="edit-email">Email</label>
+    <input class="field-input" id="edit-email" type="email" autocomplete="email">
+    <div class="field-row">
+      <div class="field-wrap">
+        <label class="field-label" for="edit-level">Training level</label>
+        <select class="field-input" id="edit-level">
+          <option value="Medical student">Medical student</option>
+          <option value="Resident">Resident</option>
+          <option value="Fellow">Fellow</option>
+        </select>
+      </div>
+      <div class="field-wrap">
+        <label class="field-label" for="edit-weeks">Rotation length</label>
+        <select class="field-input" id="edit-weeks">
+          <option value="1">1 week</option>
+          <option value="2">2 weeks</option>
+          <option value="3">3 weeks</option>
+          <option value="4">4 weeks</option>
+        </select>
+      </div>
+    </div>
+    <button class="edit-save" onclick="saveEdit()">Save changes</button>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <div class="toast-icon" id="toast-icon"></div>
+  <div class="toast-title" id="toast-title"></div>
+  <div class="toast-sub" id="toast-sub"></div>
+</div>
+
+<script>
+// ── DATA ────────────────────────────────────────────────────────────────────
+const SECTIONS = [
+  { id:'jia', tabIdx:0, items:[
+    {label:'Oligoarticular JIA',type:'horse'},
+    {label:'Polyarticular JIA, RF+',type:'horse'},
+    {label:'Polyarticular JIA, RF−',type:'horse'},
+    {label:'Systemic onset JIA',type:'horse'},
+    {label:'Psoriatic arthritis',type:'horse'},
+    {label:'Perform pGALS while being observed',type:'horse'},
+    {label:'Non-infectious uveitis',type:'horse'},
+    {label:'Enthesitis related arthritis',type:'zebra'},
+    {label:'Know what RF+ indicates & when to order',type:'horse'},
+    {label:'Know what ANA+ indicates & when to order',type:'horse'},
+    {label:'Know what HLA-B27+ indicates & when to order',type:'horse'},
+    {label:'Know what CCP+ indicates & when to order',type:'zebra'},
+  ]},
+  { id:'pharm', tabIdx:0, items:[
+    {label:'NSAID counseling',type:'horse'},
+    {label:'Conventional DMARD counseling',type:'horse'},
+    {label:'Biologic DMARD counseling',type:'horse'},
+    {label:'Plaquenil counseling',type:'horse'},
+    {label:'Azathioprine counseling',type:'horse'},
+    {label:'MMF counseling',type:'horse'},
+    {label:'Rituximab counseling',type:'horse'},
+    {label:'IVIg counseling',type:'horse'},
+    {label:'CYC counseling',type:'horse'},
+  ]},
+  { id:'ctd', tabIdx:1, items:[
+    {label:'SLE',type:'horse'},
+    {label:'Inflammatory myositis',type:'horse'},
+    {label:'Localized scleroderma / morphea',type:'horse'},
+    {label:'Raynaud\'s phenomenon',type:'horse'},
+    {label:'Apply EULAR 2019 or SLICC criteria to a patient encounter',type:'horse'},
+    {label:'Create a differential & workup for a patient with weakness',type:'horse'},
+    {label:'See a patient with unexplained fevers',type:'horse'},
+    {label:'Systemic scleroderma',type:'zebra'},
+    {label:'Mixed connective tissue disease',type:'zebra'},
+    {label:'Neonatal lupus',type:'zebra'},
+    {label:'IgG4-related disease',type:'zebra'},
+    {label:'Primary APS',type:'zebra'},
+    {label:'Eosinophilic fasciitis',type:'zebra'},
+    {label:'Sjogren\'s syndrome',type:'zebra'},
+    {label:'Hidradenitis suppurativa',type:'horse'},
+  ]},
+  { id:'vasc', tabIdx:2, items:[
+    {label:'GPA',type:'horse'},
+    {label:'MPA',type:'horse'},
+    {label:'Kawasaki disease',type:'horse'},
+    {label:'IgA vasculitis',type:'horse'},
+    {label:'EGPA',type:'zebra'},
+    {label:'Takayasu arteritis',type:'zebra'},
+    {label:'Hypersensitivity vasculitis',type:'zebra'},
+    {label:'Behcet\'s disease',type:'zebra'},
+    {label:'PAN',type:'zebra'},
+    {label:'Goodpasture\'s disease',type:'zebra'},
+    {label:'Primary CNS vasculitis',type:'zebra'},
+    {label:'cPAN',type:'zebra'},
+    {label:'COPA',type:'zebra'},
+  ]},
+  { id:'infx', tabIdx:2, items:[
+    {label:'Reactive arthritis',type:'horse'},
+    {label:'Rheumatic fever',type:'zebra'},
+    {label:'Post-infectious myositis',type:'zebra'},
+    {label:'Lyme arthritis',type:'zebra'},
+  ]},
+  { id:'auto', tabIdx:3, items:[
+    {label:'PFAPA',type:'horse'},
+    {label:'MAS',type:'horse'},
+    {label:'Recurrent fever consult',type:'horse'},
+    {label:'CNO',type:'horse'},
+    {label:'Other monogenic fever syndrome',type:'zebra'},
+    {label:'Sarcoidosis / Blau',type:'zebra'},
+    {label:'FMF',type:'zebra'},
+    {label:'DADA2',type:'zebra'},
+  ]},
+  { id:'nonrheum', tabIdx:3, items:[
+    {label:'Arthralgia',type:'horse'},
+    {label:'Pain amplification syndrome',type:'horse'},
+    {label:'Patellofemoral pain syndrome',type:'horse'},
+    {label:'Hypermobility syndrome',type:'horse'},
+    {label:'Vitamin D deficiency',type:'horse'},
+    {label:'Growing pain',type:'horse'},
+    {label:'Hematologic disease',type:'zebra'},
+    {label:'Vitamin C deficiency',type:'zebra'},
+    {label:'Metabolic disease',type:'zebra'},
+    {label:'IBD associated arthritis',type:'zebra'},
+    {label:'Celiac disease',type:'zebra'},
+  ]},
+];
+
+const TOTAL_ZEBRAS = SECTIONS.reduce((t,s)=>t+s.items.filter(i=>i.type==='zebra').length,0);
+const TOTAL_HORSES = SECTIONS.reduce((t,s)=>t+s.items.filter(i=>i.type==='horse').length,0);
+const TOTAL_ITEMS  = SECTIONS.reduce((t,s)=>t+s.items.length,0);
+
+// Tab totals for counts
+const TAB_SECTION_MAP = {0:['jia','pharm'],1:['ctd'],2:['vasc','infx'],3:['auto','nonrheum']};
+
+// Fire thresholds [fire1, fire2, fire3] by weeks
+const FIRE_THRESHOLDS = {1:[2,3,4],2:[3,5,7],3:[4,7,11],4:[5,9,14]};
+
+// Horse milestones: [50%, 90%] of horse total pro-rated by weeks
+// Pro-rate: expected = TOTAL_HORSES * (weeks/4)
+// Milestone fires at 50% and 90% of expected
+
+// ── STATE ────────────────────────────────────────────────────────────────────
+const STORAGE_KEY = 'rheum-passport-v2';
+let state = {}, learner = {}, submitted = false, rotWeeks = 4;
+let usageDates = []; // array of 'YYYY-MM-DD' strings
+let milestones = { zebra1:false, zebra5:false, zebra10:false, zebra15:false, horse50:false, horse90:false, fire1:false, fire2:false, fire3:false };
+let activeTab = 0;
+let pendingItemId = null, pendingSection = null;
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) {
+      const p = JSON.parse(raw);
+      state = p.state||{}; learner = p.learner||{}; submitted = p.submitted||false;
+      rotWeeks = p.rotWeeks||4; usageDates = p.usageDates||[]; milestones = p.milestones||{};
+      return !!(learner.name);
+    }
+  } catch(e){}
+  return false;
+}
+
+function saveState() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify({state,learner,submitted,rotWeeks,usageDates,milestones})); } catch(e){}
+}
+
+function logUsageDate() {
+  const today = new Date().toISOString().slice(0,10);
+  if (!usageDates.includes(today)) { usageDates.push(today); saveState(); }
+}
+
+// ── HELPERS ──────────────────────────────────────────────────────────────────
+function iid(secId,idx){ return secId+'-'+idx; }
+
+function todayStr(){
+  const d=new Date();
+  return (d.getMonth()+1)+'/'+(d.getDate())+'/'+String(d.getFullYear()).slice(2);
+}
+
+function heatColor(pct, weeks) {
+  // pro-rate: treat pct relative to weeks/4 of total
+  const factor = weeks/4;
+  const adj = factor > 0 ? pct/factor : pct;
+  const c = Math.min(adj,1);
+  if(c>=0.80) return '#639922';
+  if(c>=0.60) return '#97C459';
+  if(c>=0.35) return '#EF9F27';
+  if(c>=0.15) return '#BA7517';
+  return '#C0392B';
+}
+
+// ── RENDER ───────────────────────────────────────────────────────────────────
+function renderSection(sec) {
+  const body = document.getElementById('body-'+sec.id);
+  if(!body) return;
+  body.innerHTML='';
+  const pending=[], done=[];
+  sec.items.forEach((item,idx)=>{
+    const id=iid(sec.id,idx), s=state[id]||{};
+    (s.done?done:pending).push({item,idx,id,s});
+  });
+  [...pending,...done].forEach(({item,idx,id,s})=>{
+    body.appendChild(makeCard(item,idx,id,s,sec));
+  });
+}
+
+function makeCard(item,idx,id,s,sec){
+  const card=document.createElement('div');
+  card.className='item-card '+item.type+(s.done?' done':'');
+  card.id='card-'+id;
+  const badge=item.type==='horse'
+    ?'<span class="badge horse-b">🐴 Horse</span>'
+    :'<span class="badge zebra-b">🦓 Zebra</span>';
+  const doneMeta = s.done
+    ?`<div class="item-done-meta">${s.date}${s.initials?' · '+s.initials:''}</div>`:'';
+  card.innerHTML=`
+    <div class="item-top">
+      <div class="check-box">
+        <svg class="check-svg" viewBox="0 0 14 14"><polyline points="2,7 6,11 12,3"/></svg>
+      </div>
+      <div class="item-body">
+        ${badge}
+        <div class="item-title">${item.label}</div>
+        ${doneMeta}
+      </div>
+    </div>
+    <div class="burst-container" id="burst-${id}"></div>
+  `;
+  card.addEventListener('click', ()=>tapCard(id, sec.id, sec.tabIdx, item));
+  return card;
+}
+
+// ── TAP CARD ─────────────────────────────────────────────────────────────────
+function tapCard(id, secId, tabIdx, item) {
+  const s = state[id]||{};
+  if(s.done) {
+    // undo
+    state[id] = {done:false,date:'',initials:''};
+    saveState();
+    renderSection(SECTIONS.find(s=>s.id===secId));
+    updateCounts();
+    return;
+  }
+  // open bottom sheet
+  pendingItemId = id;
+  pendingSection = {secId, tabIdx, item};
+  document.getElementById('sheet-item-name').textContent = item.label;
+  document.getElementById('sheet-initials').value = '';
+  document.getElementById('sheet-overlay').classList.add('open');
+  setTimeout(()=>document.getElementById('sheet-initials').focus(),300);
+}
+
+function closeSheet(e) {
+  if(e && e.target !== document.getElementById('sheet-overlay')) return;
+  document.getElementById('sheet-overlay').classList.remove('open');
+  pendingItemId=null; pendingSection=null;
+}
+
+function confirmItem(skip) {
+  document.getElementById('sheet-overlay').classList.remove('open');
+  if(!pendingItemId) return;
+  const initials = skip ? '' : document.getElementById('sheet-initials').value.trim();
+  const id = pendingItemId;
+  const {secId, tabIdx, item} = pendingSection;
+  state[id] = {done:true, date:todayStr(), initials};
+  saveState();
+  fireBurst(id, item.type);
+  const sec = SECTIONS.find(s=>s.id===secId);
+  renderSection(sec);
+  updateCounts();
+  checkMilestones(item.type);
+  pendingItemId=null; pendingSection=null;
+}
+
+// ── BURST ─────────────────────────────────────────────────────────────────────
+function fireBurst(id,type){
+  const c=document.getElementById('burst-'+id); if(!c) return;
+  const colors=type==='zebra'?['#BA7517','#EF9F27','#FAC775','#633806','#FEF3E0']:['#185FA5','#378ADD','#85B7EB','#0C447C','#B5D4F4'];
+  const count=type==='zebra'?18:10;
+  c.innerHTML='';
+  for(let i=0;i<count;i++){
+    const p=document.createElement('div');
+    p.className='particle'+(type==='zebra'?' z':'');
+    const angle=(i/count)*360, dist=(type==='zebra'?50:32)+Math.random()*20, size=(type==='zebra'?6:4)+Math.random()*4;
+    p.style.cssText=`width:${size}px;height:${size}px;background:${colors[i%colors.length]};--tx:${Math.cos(angle*Math.PI/180)*dist}px;--ty:${Math.sin(angle*Math.PI/180)*dist}px;left:0;top:0;`;
+    c.appendChild(p);
+  }
+  setTimeout(()=>{if(c)c.innerHTML='';},900);
+}
+
+// ── COUNTS ───────────────────────────────────────────────────────────────────
+function updateCounts(){
+  let totalDone=0;
+  const tabDone={0:0,1:0,2:0,3:0}, tabTotal={0:0,1:0,2:0,3:0};
+
+  SECTIONS.forEach(sec=>{
+    let secDone=0;
+    sec.items.forEach((_,idx)=>{ if((state[iid(sec.id,idx)]||{}).done){secDone++;tabDone[sec.tabIdx]++;} tabTotal[sec.tabIdx]++; });
+    totalDone+=secDone;
+    const el=document.getElementById('count-'+sec.id);
+    if(el) el.textContent=secDone+' / '+sec.items.length;
+  });
+
+  // tab counts
+  [0,1,2,3].forEach(t=>{
+    const d=tabDone[t]||0, total=tabTotal[t]||1;
+    const pct=d/total;
+    const color=heatColor(pct,rotWeeks);
+    const tc=document.getElementById('tc'+t);
+    if(tc) tc.textContent=d+'/'+total;
+    const hd=document.getElementById('hd'+t);
+    if(hd) hd.style.background=color;
+  });
+
+  // overall
+  const overall=TOTAL_ITEMS>0?totalDone/TOTAL_ITEMS:0;
+  const pctText=Math.round(overall*100)+'%';
+  document.getElementById('overall-pct').textContent=pctText;
+  const overallColor=heatColor(overall,rotWeeks);
+  const bar=document.getElementById('overall-bar');
+  bar.style.width=Math.round(overall*100)+'%';
+  bar.style.background=overallColor;
+
+  // zebra count
+  let zebraDone=0;
+  SECTIONS.forEach(sec=>sec.items.forEach((item,idx)=>{ if(item.type==='zebra'&&(state[iid(sec.id,idx)]||{}).done) zebraDone++; }));
+  document.getElementById('zebra-count-display').textContent=zebraDone+' / '+TOTAL_ZEBRAS;
+
+  // fire counter
+  const days=usageDates.length;
+  const thresholds=FIRE_THRESHOLDS[rotWeeks]||FIRE_THRESHOLDS[4];
+  if(days>=thresholds[0]){
+    document.getElementById('fire-counter').style.display='flex';
+    let fires='🔥';
+    if(days>=thresholds[2]) fires='🔥🔥🔥';
+    else if(days>=thresholds[1]) fires='🔥🔥';
+    document.getElementById('fire-display').textContent=fires;
+    document.getElementById('fire-days-display').textContent=days+(days===1?' day':' days');
+  }
+}
+
+// ── MILESTONES ───────────────────────────────────────────────────────────────
+function checkMilestones(itemType){
+  let zebraDone=0, horseDone=0;
+  SECTIONS.forEach(sec=>sec.items.forEach((item,idx)=>{
+    if((state[iid(sec.id,idx)]||{}).done){ if(item.type==='zebra') zebraDone++; else horseDone++; }
+  }));
+
+  // First zebra
+  if(itemType==='zebra' && zebraDone===1 && !milestones.zebra1){
+    milestones.zebra1=true; saveState();
+    showToast('🦓','First zebra spotted!','Rare diseases are what make rheumatology extraordinary. Keep your eyes open.');
+    return;
+  }
+  // Zebra tiers
+  if(zebraDone>=5 && !milestones.zebra5){
+    milestones.zebra5=true; saveState();
+    showToast('🦓','Rare Disease Spotter','You\'ve encountered 5 zebras. Not everyone gets to see these.');
+    launchConfetti(['#BA7517','#EF9F27','#FAC775']);
+    return;
+  }
+  if(zebraDone>=10 && !milestones.zebra10){
+    milestones.zebra10=true; saveState();
+    showToast('🦓🦓','Rare Disease Hunter','10 zebras. You have a remarkable eye for the unusual.');
+    launchConfetti(['#BA7517','#EF9F27','#FAC775','#633806']);
+    return;
+  }
+  if(zebraDone>=15 && !milestones.zebra15){
+    milestones.zebra15=true; saveState();
+    showToast('🦓🦓🦓','Zebra Whisperer','15 rare diseases. An extraordinary rotation.');
+    launchConfetti(['#BA7517','#EF9F27','#FAC775','#633806','#FEF3E0']);
+    return;
+  }
+
+  // Horse milestones pro-rated
+  const expected = Math.round(TOTAL_HORSES * (rotWeeks/4));
+  if(horseDone >= Math.round(expected*0.5) && !milestones.horse50){
+    milestones.horse50=true; saveState();
+    showToast('🐴','Getting your footing','You\'re building a strong clinical foundation in pediatric rheumatology.');
+    return;
+  }
+  if(horseDone >= Math.round(expected*0.9) && !milestones.horse90){
+    milestones.horse90=true; saveState();
+    showToast('🐴🐴','Strong foundation','You\'ve mastered the core of pediatric rheumatology. Attendings notice this.');
+    launchConfetti(['#185FA5','#378ADD','#85B7EB']);
+    return;
+  }
+}
+
+function checkFireMilestones(){
+  const days=usageDates.length;
+  const thresholds=FIRE_THRESHOLDS[rotWeeks]||FIRE_THRESHOLDS[4];
+  if(days>=thresholds[0] && !milestones.fire1){
+    milestones.fire1=true; saveState();
+    showToast('🔥','Showing up counts!','You\'ve opened your passport on multiple days. Consistent exposure is how real clinical learning happens.');
+  }
+  if(days>=thresholds[1] && !milestones.fire2){
+    milestones.fire2=true; saveState();
+    showToast('🔥🔥','You keep coming back!','Consistent engagement throughout your rotation. This is noticed.');
+  }
+  if(days>=thresholds[2] && !milestones.fire3){
+    milestones.fire3=true; saveState();
+    showToast('🔥🔥🔥','Maximum engagement','Your attendings notice this level of dedication.');
+    launchConfetti(['#EF9F27','#E24B4A','#185FA5','#639922']);
+  }
+}
+
+// ── TOAST ─────────────────────────────────────────────────────────────────────
+let toastTimer=null;
+function showToast(icon,title,sub){
+  const t=document.getElementById('toast');
+  document.getElementById('toast-icon').textContent=icon;
+  document.getElementById('toast-title').textContent=title;
+  document.getElementById('toast-sub').textContent=sub;
+  t.classList.add('show');
+  if(toastTimer) clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>t.classList.remove('show'),4000);
+}
+
+// ── CONFETTI ──────────────────────────────────────────────────────────────────
+function launchConfetti(colors){
+  for(let i=0;i<60;i++){
+    setTimeout(()=>{
+      const p=document.createElement('div');
+      p.className='confetti-piece';
+      p.style.cssText=`left:${Math.random()*100}vw;top:-10px;background:${colors[Math.floor(Math.random()*colors.length)]};animation:confetti-fall ${1.5+Math.random()*1.5}s ease-in forwards;transform:rotate(${Math.random()*360}deg);border-radius:${Math.random()>0.5?'50%':'2px'};`;
+      document.body.appendChild(p);
+      setTimeout(()=>p.remove(),3500);
+    },Math.random()*1000);
+  }
+}
+
+// ── ACCORDION ─────────────────────────────────────────────────────────────────
+function toggleAccordion(id){
+  const body=document.getElementById('body-'+id);
+  const chev=document.getElementById('chev-'+id);
+  const open=body.classList.contains('open');
+  body.classList.toggle('open',!open);
+  if(chev) chev.classList.toggle('open',!open);
+}
+
+// ── TABS ──────────────────────────────────────────────────────────────────────
+function switchTab(idx){
+  document.getElementById('tab'+activeTab).classList.remove('active');
+  document.querySelectorAll('.tab')[activeTab].classList.remove('active');
+  activeTab=idx;
+  document.getElementById('tab'+idx).classList.add('active');
+  document.querySelectorAll('.tab')[idx].classList.add('active');
+}
+
+// ── SUBMIT ───────────────────────────────────────────────────────────────────
+function handleSubmit(){
+  const title=document.getElementById('confirm-title');
+  const sub=document.getElementById('confirm-sub');
+  if(submitted){
+    title.textContent='Submit again?';
+    sub.textContent='You\'ve already submitted your passport. Your coordinator will receive another copy.';
+  } else {
+    title.textContent='Submit passport?';
+    sub.textContent='This will send your completion record to your rotation coordinator. You can still make changes after submitting.';
+  }
+  document.getElementById('confirm-overlay').classList.add('open');
+}
+
+function closeConfirm(e){
+  if(e && e.target!==document.getElementById('confirm-overlay')) return;
+  document.getElementById('confirm-overlay').classList.remove('open');
+}
+
+function doSubmit(){
+  document.getElementById('confirm-overlay').classList.remove('open');
+
+  // Build blurb
+  const lines=[];
+  lines.push('RHEUMATOLOGY PASSPORT SUBMISSION');
+  lines.push('================================');
+  lines.push('Name: '+(learner.name||''));
+  lines.push('Email: '+(learner.email||''));
+  lines.push('Training level: '+(learner.level||''));
+  lines.push('Rotation weeks: '+rotWeeks);
+  lines.push('Submitted: '+new Date().toLocaleString());
+  lines.push('Usage days: '+usageDates.length);
+  lines.push('');
+
+  let totalDone=0; let zebraDone=0;
+  SECTIONS.forEach(sec=>{
+    const secName=document.getElementById('body-'+sec.id)?.closest('.accordion')?.querySelector('.accordion-title')?.textContent||sec.id;
+    lines.push('── '+secName.toUpperCase()+' ──');
+    sec.items.forEach((item,idx)=>{
+      const s=state[iid(sec.id,idx)]||{};
+      totalDone+=(s.done?1:0);
+      if(s.done&&item.type==='zebra') zebraDone++;
+      if(s.done) lines.push('✓ '+item.label+(s.date?' ['+s.date+']':'')+(s.initials?' — '+s.initials:''));
+      else lines.push('○ '+item.label+' — not completed');
+    });
+    lines.push('');
+  });
+  const pct=Math.round((totalDone/TOTAL_ITEMS)*100);
+  lines.push('Overall: '+pct+'% ('+totalDone+'/'+TOTAL_ITEMS+')');
+  lines.push('Zebras spotted: '+zebraDone+'/'+TOTAL_ZEBRAS);
+
+  // Formspree
+  const fd=new FormData();
+  fd.append('name',learner.name||'');
+  fd.append('email',learner.email||'');
+  fd.append('level',learner.level||'');
+  fd.append('weeks',rotWeeks);
+  fd.append('passport_summary',lines.join('\n'));
+  fetch('https://formspree.io/f/maqvnwpo',{method:'POST',body:fd,headers:{Accept:'application/json'}}).catch(()=>{});
+
+  submitted=true; saveState();
+  showAchievement(pct, zebraDone);
+}
+
+function showAchievement(pct, zebraDone){
+  document.getElementById('ach-pct').textContent=pct+'%';
+  document.getElementById('ach-zebras').textContent=zebraDone;
+
+  const badges=[];
+  // Horse badges
+  if(milestones.horse90) badges.push({icon:'🐴🐴',name:'Strong Foundation',sub:'Mastered the core of pediatric rheumatology'});
+  else if(milestones.horse50) badges.push({icon:'🐴',name:'Getting Your Footing',sub:'Solid clinical foundation built'});
+  // Zebra badges
+  if(milestones.zebra15) badges.push({icon:'🦓🦓🦓',name:'Zebra Whisperer',sub:'15 rare diseases encountered'});
+  else if(milestones.zebra10) badges.push({icon:'🦓🦓',name:'Rare Disease Hunter',sub:'10 rare diseases encountered'});
+  else if(milestones.zebra5) badges.push({icon:'🦓',name:'Rare Disease Spotter',sub:'5 rare diseases encountered'});
+  // Fire badges
+  const thresholds=FIRE_THRESHOLDS[rotWeeks]||FIRE_THRESHOLDS[4];
+  const days=usageDates.length;
+  if(days>=thresholds[2]) badges.push({icon:'🔥🔥🔥',name:'Maximum Engagement',sub:days+' days of consistent use'});
+  else if(days>=thresholds[1]) badges.push({icon:'🔥🔥',name:'Kept Coming Back',sub:days+' days of consistent use'});
+  else if(days>=thresholds[0]) badges.push({icon:'🔥',name:'Showing Up',sub:days+' days of use'});
+
+  const container=document.getElementById('ach-badges');
+  container.innerHTML='';
+  badges.forEach(b=>{
+    const el=document.createElement('div');
+    el.className='achievement-badge';
+    el.innerHTML=`<div class="achievement-badge-icon">${b.icon}</div><div class="achievement-badge-text"><div class="achievement-badge-name">${b.name}</div><div class="achievement-badge-sub">${b.sub}</div></div>`;
+    container.appendChild(el);
+  });
+
+  document.getElementById('achievement-overlay').classList.add('open');
+  launchConfetti(['#1a3a6b','#185FA5','#BA7517','#EF9F27','#639922','#fff']);
+}
+
+function closeAchievement(){
+  document.getElementById('achievement-overlay').classList.remove('open');
+}
+
+// ── EDIT PROFILE ──────────────────────────────────────────────────────────────
+function openEdit(){
+  document.getElementById('edit-name').value=learner.name||'';
+  document.getElementById('edit-email').value=learner.email||'';
+  document.getElementById('edit-level').value=learner.level||'Medical student';
+  document.getElementById('edit-weeks').value=rotWeeks;
+  document.getElementById('edit-overlay').classList.add('open');
+}
+function closeEdit(e){
+  if(e && e.target!==document.getElementById('edit-overlay')) return;
+  document.getElementById('edit-overlay').classList.remove('open');
+}
+function saveEdit(){
+  learner.name=document.getElementById('edit-name').value.trim()||learner.name;
+  learner.email=document.getElementById('edit-email').value.trim()||learner.email;
+  learner.level=document.getElementById('edit-level').value;
+  rotWeeks=parseInt(document.getElementById('edit-weeks').value);
+  saveState();
+  document.getElementById('header-learner').innerHTML=learner.name+'<br>'+(learner.level||'')+' · '+rotWeeks+'wk';
+  document.getElementById('edit-overlay').classList.remove('open');
+  updateCounts();
+  showToast('✏️','Profile updated','Your changes have been saved.');
+}
+
+// ── ONBOARDING ────────────────────────────────────────────────────────────────
+function beginPassport(){
+  const name=document.getElementById('ob-name').value.trim();
+  const email=document.getElementById('ob-email').value.trim();
+  const level=document.getElementById('ob-level').value;
+  const weeks=parseInt(document.getElementById('ob-weeks').value);
+  if(!name){alert('Please enter your name.');return;}
+  learner={name,email,level}; rotWeeks=weeks;
+  saveState(); launchApp();
+}
+
+function launchApp(){
+  document.getElementById('onboard-overlay').style.display='none';
+  document.getElementById('app').style.display='flex';
+  document.getElementById('header-learner').innerHTML=learner.name+'<br>'+(learner.level||'')+' · '+rotWeeks+'wk';
+  SECTIONS.forEach(sec=>renderSection(sec));
+  updateCounts();
+  logUsageDate();
+  checkFireMilestones();
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+window.addEventListener('DOMContentLoaded',()=>{
+  if(loadState()) launchApp();
+});
+</script>
+</body>
+</html>
