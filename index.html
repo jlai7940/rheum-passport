@@ -293,7 +293,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
       <div class="tab active" onclick="switchTab(0)"><div class="tab-name">Joint Dz</div><div class="tab-count" id="tc0">0/21</div></div>
       <div class="tab" onclick="switchTab(1)"><div class="tab-name">CTD</div><div class="tab-count" id="tc1">0/15</div></div>
       <div class="tab" onclick="switchTab(2)"><div class="tab-name">Vasculitis</div><div class="tab-count" id="tc2">0/16</div></div>
-      <div class="tab" onclick="switchTab(3)"><div class="tab-name">Autoinflam</div><div class="tab-count" id="tc3">0/17</div></div>
+      <div class="tab" onclick="switchTab(3)"><div class="tab-name">Autoinflam</div><div class="tab-count" id="tc3">0/25</div></div>
     </div>
   </div>
 
@@ -357,6 +357,13 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
           <div class="accordion-right"><span class="accordion-count" id="count-nonrheum">0 / 11</span><div class="accordion-chevron" id="chev-nonrheum">▾</div></div>
         </div>
         <div class="accordion-body" id="body-nonrheum"></div>
+      </div>
+      <div class="accordion" id="acc-resources">
+        <div class="accordion-header" onclick="toggleAccordion('resources')">
+          <div class="accordion-title">Resources</div>
+          <div class="accordion-right"><span class="accordion-count" id="count-resources">0 / 8</span><div class="accordion-chevron" id="chev-resources">▾</div></div>
+        </div>
+        <div class="accordion-body" id="body-resources"></div>
       </div>
     </div>
   </div>
@@ -550,6 +557,16 @@ const SECTIONS = [
     {label:'Metabolic disease',type:'zebra'},
     {label:'IBD associated arthritis',type:'zebra'},
     {label:'Celiac disease',type:'zebra'},
+  ]},
+  { id:'resources', tabIdx:3, items:[
+    {label:'Visited PMM Online',type:'horse'},
+    {label:'Listened to ACR on Air: Kawasaki',type:'horse'},
+    {label:'Listened to ACR on Air: Transition',type:'horse'},
+    {label:'Listened to ACR on Air: Vaccines',type:'horse'},
+    {label:'Listened to Rheum2Play',type:'horse'},
+    {label:'Visited Choosing Wisely',type:'horse'},
+    {label:'Visited MedEd PORTAL',type:'horse'},
+    {label:'Visited NOMID Alliance',type:'horse'},
   ]},
 ];
 
