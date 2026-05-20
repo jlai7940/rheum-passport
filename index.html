@@ -1025,6 +1025,7 @@ function beginPassport(){
   const level=document.getElementById('ob-level').value;
   const weeks=parseInt(document.getElementById('ob-weeks').value);
   if(!name){alert('Please enter your name.');return;}
+  if(!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){alert('Please enter a valid email address.');return;}
   learner={name,email,level}; rotWeeks=weeks;
   saveState(); launchApp();
 }
