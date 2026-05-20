@@ -951,7 +951,6 @@ function doSubmit(){
   fd.append('email',learner.email||'');
   fd.append('level',learner.level||'');
   fd.append('weeks',rotWeeks);
-  fd.append('_gotcha','');
   fd.append('passport_summary',lines.join('\n'));
   fetch('https://formspree.io/f/maqvnwpo',{method:'POST',body:fd,headers:{Accept:'application/json'}}).catch(()=>{});
 
